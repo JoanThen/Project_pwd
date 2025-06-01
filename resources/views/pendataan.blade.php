@@ -52,65 +52,93 @@
     <!-- MAIN CONTENT -->
     <div class="flex">
         <!-- SIDEBAR -->
-        <aside class="w-72 bg-[#0c0c16]/90 py-10 px-6 border-r border-[#2a2a40] min-h-screen relative z-10">
-            <div class="mb-10 px-4">
-                <div class="text-center">
-                    <h2 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">SARPAS</h2>
-                    <p class="text-xs text-gray-400 mt-1">Sistem Administrasi Resource Planning</p>
-                </div>
-            </div>
+       <aside class="w-80 bg-gradient-to-b from-[#0c0c16] to-[#13131f] py-10 px-6 border-r border-[#2a2a40]/70 min-h-screen relative z-10 shadow-xl">
+    <!-- Logo and System Title -->
+    <div class="mb-12 px-4">
+        <div class="text-center py-3 border-b border-[#2a2a40]/50 pb-6">
+            <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">SARPAS</h2>
+            <p class="text-xs text-gray-400 mt-2">Sistem Administrasi Resource Planning</p>
+        </div>
+    </div>
 
-            <ul class="space-y-2">
-                <li class="mb-1">
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition group">
-                        <i class="fas fa-tachometer-alt text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
-                        <span>Dashboard</span>
+    <!-- Main Navigation -->
+    <div class="space-y-6">
+        <!-- Main Menu Section -->
+        <div>
+            <h3 class="text-xs uppercase text-gray-500 font-semibold px-4 mb-3">Menu Utama</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg bg-[#1a1a2e] bg-opacity-80 border-l-4 border-blue-500 shadow-md group">
+                        <i class="fas fa-tachometer-alt text-blue-400 w-5 text-center"></i>
+                        <span class="font-medium">Dashboard</span>
                     </a>
                 </li>
-                <li class="mb-1">
-                    <a href="{{ route('pengguna') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition group">
+                <li>
+                    <a href="{{ route('pengguna') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
                         <i class="fas fa-users text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
                         <span>Pengguna</span>
                     </a>
                 </li>
-             
-                <li class="mb-1">
-                    <a href="{{ route('laporan') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition group">
-                        <i class="fas fa-chart-bar text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
-                        <span>Laporan</span>
-                    </a>
-                </li>
-                
-              
-                
-                <!-- Kategori Barang -->
-                <li class="mb-1">
-                    <a href="{{ route('kategori.index') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition group">
-                        <i class="fas fa-tags text-blue-400 w-5 text-center"></i>
+                <li>
+                    <a href="{{ route('kategori.index') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                        <i class="fas fa-tags text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
                         <span>Kategori Barang</span>
                     </a>
                 </li>
-                
-                <!-- Pendataan Barang -->
-               
-                
-                <!-- Peminjaman -->
-                <li class="mb-1">
-                    <a href="#" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition group">
-                        <i class="fas fa-handshake text-teal-400 w-5 text-center"></i>
+                 <li>
+                            <a href="{{ route('barang.index') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                                <i class="fas fa-box text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
+                                <span>Barang</span>
+                            </a>
+                    </li>
+            </ul>
+        </div>
+
+        <!-- Transaction Section -->
+        <div>
+            <h3 class="text-xs uppercase text-gray-500 font-semibold px-4 mb-3 mt-6">Transaksi</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="{{ route('peminjaman.index') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                        <i class="fas fa-handshake text-gray-400 group-hover:text-teal-400 transition-colors w-5 text-center"></i>
                         <span>Peminjaman Barang</span>
                     </a>
                 </li>
-                
-                <!-- Pengembalian -->
-                <li class="mb-1">
-                    <a href="#" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition group">
-                        <i class="fas fa-undo-alt text-indigo-400 w-5 text-center"></i>
+                <li>
+                    <a href="{{ route('pengembalian.index') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                        <i class="fas fa-undo-alt text-gray-400 group-hover:text-indigo-400 transition-colors w-5 text-center"></i>
                         <span>Pengembalian Barang</span>
                     </a>
                 </li>
             </ul>
-        </aside>
+        </div>
+
+        <!-- Reports Section -->
+     <div>
+                <h3 class="text-xs uppercase text-gray-500 font-semibold px-4 mb-3 mt-6">Laporan</h3>
+                <ul class="space-y-3">
+                    <li>
+                        <a href="{{ route('laporan.stok') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                            <i class="fas fa-boxes text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
+                            <span>Laporan Stok Barang</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('laporan.peminjaman') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                            <i class="fas fa-handshake text-gray-400 group-hover:text-teal-400 transition-colors w-5 text-center"></i>
+                            <span>Laporan Peminjaman</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('laporan.pengembalian') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                            <i class="fas fa-undo-alt text-gray-400 group-hover:text-indigo-400 transition-colors w-5 text-center"></i>
+                            <span>Laporan Pengembalian</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+    </div>
+
         
 
         <!-- CONTENT - NOW EMPTY OR WITH MINIMAL CONTENT -->

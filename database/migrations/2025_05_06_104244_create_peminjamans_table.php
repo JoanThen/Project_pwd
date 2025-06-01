@@ -9,21 +9,33 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   // database/migrations/xxxx_xx_xx_create_peminjamans_table.php
-public function up()
-{
-    Schema::create('peminjamans', function (Blueprint $table) {
-        $table->id(); // This should create an auto-incrementing unsigned big integer as the primary key
+    public function up()
+    {
+        Schema::create('peminjamans', function (Blueprint $table) {
+            $table->id();
 
-        $table->string('nama_peminjam');
-        $table->unsignedBigInteger('barang_id');
-        $table->integer('jumlah');
-        $table->date('tanggal_pinjam');
-        $table->timestamps();
+            $table->string('nama_peminjam');
+            $table->unsignedBigInteger('barang_id');
+            $table->integer('jumlah');
+            $table->date('tanggal_pinjam');
 
-        $table->foreign('barang_id')->references('id')->on('barangs')->onDelete('cascade');
-    });
-}
+            // Penambahan fitur approval
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->timestamp('approved_at')->nullable();
+            $table->unsignedBigInteger('approved_by')->nullable();
+            $table->text('keterangan')->nullable();
+
+            // Relasi pengguna yang meminjam
+            $table->unsignedBigInteger('user_id');
+
+            $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('barang_id')->references('id')->on('barangs')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null');
+        });
+    }
 
     /**
      * Reverse the migrations.

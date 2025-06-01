@@ -35,10 +35,7 @@
         <!-- Profile + Logout -->
         <div class="flex items-center gap-6">
             <div class="relative">
-                <button class="text-gray-300 hover:text-white transition">
-                    <i class="fas fa-bell text-xl"></i>
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
-                </button>
+                
             </div>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -50,7 +47,7 @@
             <div class="flex items-center gap-3">
                 <div class="flex flex-col items-end">
                     <span class="font-medium">{{ Auth::user()->name }}</span>
-                    <span class="text-xs text-gray-400">User</span>
+                    <span class="text-xs text-gray-400">Admin</span>
                 </div>
                 <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 p-0.5">
                     <img src="{{ asset('assets/OIP.jpeg') }}" alt="Profile" class="w-full h-full rounded-full object-cover">
@@ -59,61 +56,96 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
+     <!-- MAIN CONTENT -->
     <div class="flex">
-        <!-- SIDEBAR -->
-        <aside class="w-72 bg-[#0c0c16]/90 py-10 px-6 border-r border-[#2a2a40] min-h-screen relative z-10">
-            <div class="mb-10 px-4">
-                <div class="text-center">
-                    <h2 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">SARPAS</h2>
-                    <p class="text-xs text-gray-400 mt-1">Sistem Administrasi Resource Planning</p>
-                </div>
-            </div>
+     <!-- SIDEBAR -->
+<aside class="w-80 bg-gradient-to-b from-[#0c0c16] to-[#13131f] py-10 px-6 border-r border-[#2a2a40]/70 min-h-screen relative z-10 shadow-xl">
+    <!-- Logo and System Title -->
+    <div class="mb-12 px-4">
+        <div class="text-center py-3 border-b border-[#2a2a40]/50 pb-6">
+            <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">SARPAS</h2>
+            <p class="text-xs text-gray-400 mt-2">Sistem Administrasi Resource Planning</p>
+        </div>
+    </div>
 
-            <ul class="space-y-2">
-                <li class="mb-1">
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition group">
+    <!-- Main Navigation -->
+    <div class="space-y-6">
+        <!-- Main Menu Section -->
+        <div>
+            <h3 class="text-xs uppercase text-gray-500 font-semibold px-4 mb-3">Menu Utama</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
                         <i class="fas fa-tachometer-alt text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="mb-1">
-                    <a href="{{ route('pengguna') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg bg-[#1a1a2e] bg-opacity-80 border-l-4 border-blue-500 group">
+                <li>
+                    <a href="{{ route('pengguna') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg bg-[#1a1a2e] bg-opacity-80 border-l-4 border-blue-500 shadow-md group">
                         <i class="fas fa-users text-blue-400 w-5 text-center"></i>
-                        <span>Pengguna</span>
+                        <span class="font-medium">Pengguna</span>
                     </a>
                 </li>
-                <li class="mb-1">
-                    <a href="{{ route('pendataan') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition group">
-                        <i class="fas fa-clipboard-list text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
-                        <span>Pendataan</span>
+                <li>
+                    <a href="{{ route('kategori.index') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                        <i class="fas fa-tags text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
+                        <span>Kategori Barang</span>
                     </a>
                 </li>
-                <li class="mb-1">
-                    <a href="{{ route('laporan') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition group">
-                        <i class="fas fa-chart-bar text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
-                        <span>Laporan</span>
+                   <li>
+                            <a href="{{ route('barang.index') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                                <i class="fas fa-box text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
+                                <span>Barang</span>
+                            </a>
+                    </li>
+            </ul>
+        </div>
+
+        <!-- Transaction Section -->
+        <div>
+            <h3 class="text-xs uppercase text-gray-500 font-semibold px-4 mb-3 mt-6">Transaksi</h3>
+            <ul class="space-y-3">
+                <li>
+                    <a href="{{ route('peminjaman.index') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                        <i class="fas fa-handshake text-gray-400 group-hover:text-teal-400 transition-colors w-5 text-center"></i>
+                        <span>Peminjaman Barang</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('pengembalian.index') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                        <i class="fas fa-undo-alt text-gray-400 group-hover:text-indigo-400 transition-colors w-5 text-center"></i>
+                        <span>Pengembalian Barang</span>
                     </a>
                 </li>
             </ul>
+        </div>
 
-            <div class="mt-6 px-4 py-3">
+        <!-- Reports Section -->
+      <div>
+                <h3 class="text-xs uppercase text-gray-500 font-semibold px-4 mb-3 mt-6">Laporan</h3>
+                <ul class="space-y-3">
+                    <li>
+                        <a href="{{ route('laporan.stok') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                            <i class="fas fa-boxes text-gray-400 group-hover:text-blue-400 transition-colors w-5 text-center"></i>
+                            <span>Laporan Stok Barang</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('laporan.peminjaman') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                            <i class="fas fa-handshake text-gray-400 group-hover:text-teal-400 transition-colors w-5 text-center"></i>
+                            <span>Laporan Peminjaman</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('laporan.pengembalian') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-[#1a1a2e] transition duration-300 group hover:shadow-md">
+                            <i class="fas fa-undo-alt text-gray-400 group-hover:text-indigo-400 transition-colors w-5 text-center"></i>
+                            <span>Laporan Pengembalian</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
-         
-            <div class="">
-                <div class="flex justify-between items-center mb-3">
-                </div>
-                <div class="space-y-2">
-                    <div class="flex justify-between items-center text-xs">
-                    </div>
-                    <div class="flex justify-between items-center text-xs">
-                    
-                    </div>
-                    <div class="flex justify-between items-center text-xs">
-                    </div>
-                </div>
-            </div>
-        </aside>
+    </div>
+</aside>
 
         <!-- CONTENT -->
         <main class="flex-1 p-8 z-10 overflow-y-auto">
@@ -163,10 +195,11 @@
             <div class="bg-gradient-to-br from-[#1f1f3f]/90 to-[#141428]/80 backdrop-blur-sm rounded-xl shadow-lg border border-[#2a2a40] overflow-hidden">
                 <div class="bg-gradient-to-r from-blue-600/10 to-indigo-600/5 p-5 flex justify-between items-center border-b border-[#2a2a40]/50">
                     <h3 class="text-xl font-bold">User List</h3>
-                    <button class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition">
+                   <a href="{{ url('/register') }}" 
+                    class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition">
                         <i class="fas fa-plus"></i>
                         <span>Add User</span>
-                    </button>
+                    </a>
                 </div>
                 <div class="p-6">
                     <div class="overflow-x-auto">
@@ -194,7 +227,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">joan@example.com</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">@joanthen812@gmail.com</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-500/20 text-blue-400">Admin</span>
                                     </td>

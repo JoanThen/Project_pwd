@@ -7,25 +7,24 @@ use App\Models\Peminjaman;
 use App\Models\Barang;
 use App\Models\Pengembalian;
 
-
 class LaporanController extends Controller
 {
-    public function stok()
-    {
-        $barangs = Barang::all();
-        return view('laporan.stok', compact('barangs'));
+   public function stok()
+{
+    $barangs = Barang::all();
+    return view('auth.laporan.stok', compact('barangs'));
+}
 
-    }
-    // LaporanController
-public function laporanPeminjaman() {
+public function laporanPeminjaman()
+{
     $peminjamans = Peminjaman::with('barang')->get();
-    return view('laporan.peminjaman', compact('peminjamans'));
+    return view('auth.laporan.peminjaman', compact('peminjamans'));
 }
 
-public function laporanPengembalian() {
+public function laporanPengembalian()
+{
     $pengembalians = Pengembalian::with('peminjaman')->get();
-    return view('laporan.pengembalian', compact('pengembalians'));
+    return view('auth.laporan.pengembalian', compact('pengembalians'));
 }
 
 }
-

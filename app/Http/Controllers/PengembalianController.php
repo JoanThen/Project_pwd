@@ -45,4 +45,42 @@ class PengembalianController extends Controller
 
         return redirect()->route('pengembalian.index')->with('success', 'Pengembalian berhasil dicatat.');
     }
+
+    /**
+     * Menampilkan form edit pengembalian
+     */
+    public function edit(Pengembalian $pengembalian)
+    {
+        $peminjaman = Peminjaman::all();
+        return view('pengembalian.edit', compact('pengembalian', 'peminjaman'));
+    }
+
+    /**
+     * Memperbarui data pengembalian di database
+     */
+    public function update(Request $request, Pengembalian $pengembalian)
+    {
+        $request->validate([
+            'peminjaman_id' => 'required|exists:peminjamans,id',
+            'tanggal_pengembalian' => 'required|date',
+            'keterangan' => 'nullable|string'
+        ]);
+
+        $pengembalian->update([
+            'peminjaman_id' => $request->peminjaman_id,
+            'tanggal_pengembalian' => $request->tanggal_pengembalian,
+            'keterangan' => $request->keterangan
+        ]);
+
+        return redirect()->route('pengembalian.index')->with('success', 'Pengembalian berhasil diperbarui.');
+    }
+
+    /**
+     * Menghapus data pengembalian
+     */
+    public function destroy(Pengembalian $pengembalian)
+    {
+        $pengembalian->delete();
+        return redirect()->route('pengembalian.index')->with('success', 'Data berhasil dihapus.');
+    }
 }

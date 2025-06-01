@@ -4,22 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Kategori;
 
 class Barang extends Model
 {
     use HasFactory;
 
-    protected $table = 'barang';
+    protected $table = 'barangs';
 
     protected $fillable = [
         'nama',
         'kategori_id',
         'stok',
-        // tambahkan kolom lain sesuai kebutuhan
+        'foto',
+        'deskripsi',
     ];
 
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Kategori::class, 'kategori_id');
     }
 }

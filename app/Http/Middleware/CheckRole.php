@@ -16,12 +16,13 @@ class CheckRole
      * @param  string  $role
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Request $request, Closure $next, string $role): Response
-    {
-        if (auth()->check() && auth()->user()->role === $role) {
-            return $next($request);
-        }
-
-        abort(403, 'Akses ditolak.');
+   public function handle(Request $request, Closure $next, string $role): Response
+{
+    if (auth()->check() && auth()->user()->role === $role) {
+        return $next($request);
     }
+
+    return response()->json(['message' => 'Akses ditolak.'], 403);
+}
+
 }
