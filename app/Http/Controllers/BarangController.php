@@ -55,11 +55,12 @@ class BarangController extends Controller
         return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
-    public function edit(Barang $barang)
-    {
-        $kategoris = Kategori::all();
-        return view('barang.edit', compact('barang', 'kategoris'));
-    }
+   public function edit(Barang $barang)
+{
+    $kategoris = \App\Models\KategoriBarang::all(); // Samakan dengan create()
+    return view('barang.edit', compact('barang', 'kategoris'));
+}
+
 
     public function update(Request $request, Barang $barang)
     {

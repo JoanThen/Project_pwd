@@ -20,8 +20,9 @@ class Barang extends Model
         'deskripsi',
     ];
 
-    public function kategori()
-    {
-        return $this->belongsTo(Kategori::class, 'kategori_id');
-    }
+  public function kategori()
+{
+    return $this->belongsTo(\App\Models\KategoriBarang::class, 'kategori_id');
+}
+
 }

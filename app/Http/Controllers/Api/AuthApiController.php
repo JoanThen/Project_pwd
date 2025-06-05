@@ -10,46 +10,53 @@ class AuthApiController extends Controller
 {
     public function login(Request $request)
     {
-        // Validasi input login
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
 
-        // Coba login pakai Auth::attempt
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Login gagal. Email atau password salah.'], 401);
+        if (!Auth::attempt($credentials)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Login gagal. Email atau password salah.',
+            ], 401);
         }
 
         $user = Auth::user();
 
-        // Cek role user
         if ($user->role !== 'user') {
-            return response()->json(['message' => 'Role tidak diizinkan.'], 403);
+            return response()->json([
+                'success' => false,
+                'message' => 'Role tidak diizinkan.',
+            ], 403);
         }
 
-        // Buat token Sanctum
+        // Revoke all tokens (opsional)
+        $user->tokens()->delete();
+
         $token = $user->createToken('mobile-token')->plainTextToken;
 
-        // Response sukses beserta token dan data user (batasi field sensitif)
         return response()->json([
+            'success' => true,
             'message' => 'Login berhasil.',
             'token' => $token,
+            'token_type' => 'Bearer',
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
                 'role' => $user->role,
-                // tambahkan field lain yang perlu dikirim
             ],
         ]);
     }
 
     public function logout(Request $request)
     {
-        // Hapus token yang dipakai user saat ini
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Logout berhasil.']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Logout berhasil.',
+        ]);
     }
 }

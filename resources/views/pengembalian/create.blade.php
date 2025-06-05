@@ -24,7 +24,7 @@
         <div>
             <label class="block mb-1">Tanggal Pengembalian</label>
             <input type="date" name="tanggal_pengembalian" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded" required>
-        </div>
+        </div>  
 
         <div>
             <label class="block mb-1">Keterangan</label>

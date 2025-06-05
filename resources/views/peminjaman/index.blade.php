@@ -1,267 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Peminjaman - SARPAS</title>
+    <title>Daftar Peminjaman Barang - SARPAS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="min-h-screen font-sans text-gray-100 bg-gradient-to-br from-blue-900 via-gray-900 to-black">
+
     <!-- Navbar -->
-    <nav class="bg-gray-800 px-6 py-4 shadow-lg">
+    <nav class="bg-gray-800 px-6 py-4 shadow-md">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <i class="fas fa-box-open text-blue-400 text-xl"></i>
-                <h1 class="text-xl font-bold">SARPRAS - Peminjaman Barang</h1>
+            <div class="flex items-center gap-3">
+                <i class="fas fa-clipboard-list text-blue-400 text-xl"></i>
+                <h1 class="text-xl font-bold text-white">SARPRAS - Daftar Peminjaman</h1>
             </div>
-            
-            <div class="flex items-center space-x-6">
+            <div class="flex items-center gap-5">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="flex items-center text-gray-300 hover:text-white transition-colors">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    <button type="submit" class="flex items-center text-gray-300 hover:text-white transition">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </button>
                 </form>
-                <div class="w-10 h-10 overflow-hidden rounded-full border-2 border-blue-400">
-                    <img src="{{ asset('assets/OIP.jpeg') }}" alt="Profile" class="w-full h-full object-cover">
+                <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-blue-400">
+                    <img src="{{ asset('assets/OIP.jpeg') }}" alt="Profile" class="object-cover w-full h-full">
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Notifications -->
-        @if (session('success'))
-            <div id="success-alert" class="mb-6 bg-green-600/90 text-white px-6 py-3 rounded-lg shadow-lg flex justify-between items-center animate-fade-in">
-                <div class="flex items-center">
-                    <i class="fas fa-check-circle mr-3"></i>
-                    {{ session('success') }}
-                </div>
-                <button onclick="document.getElementById('success-alert').remove()" class="text-white hover:text-gray-200">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        @endif
+    <!-- Flash Message -->
+    @if (session('success'))
+    <div class="max-w-xl mx-auto mt-6">
+        <div id="success-alert"
+             class="bg-green-600 text-white px-4 py-3 rounded-md shadow-md flex items-center justify-between">
+            <span><i class="fas fa-check-circle mr-2"></i>{{ session('success') }}</span>
+        </div>
+    </div>
+    <script>
+        setTimeout(() => {
+            const alert = document.getElementById('success-alert');
+            if (alert) alert.remove();
+        }, 3000);
+    </script>
+    @endif
 
-        @if (session('error'))
-            <div id="error-alert" class="mb-6 bg-red-600/90 text-white px-6 py-3 rounded-lg shadow-lg flex justify-between items-center animate-fade-in">
-                <div class="flex items-center">
-                    <i class="fas fa-exclamation-circle mr-3"></i>
-                    {{ session('error') }}
-                </div>
-                <button onclick="document.getElementById('error-alert').remove()" class="text-white hover:text-gray-200">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        @endif
-
-        <!-- Header and Back Button -->
-        <div class="flex items-center justify-between mb-6">
-            <a href="{{ route('dashboard') }}" class="flex items-center text-blue-400 hover:text-blue-300 transition-colors">
-                <i class="fas fa-arrow-left mr-2"></i> Kembali
-            </a>
-            <a href="{{ route('peminjaman.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
-                <i class="fas fa-plus mr-2"></i> Tambah Peminjaman
+    <main class="max-w-7xl mx-auto px-6 py-10">
+        <div class="mb-6">
+            <a href="{{ route('dashboard') }}" class="text-blue-400 hover:underline flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i>Kembali
             </a>
         </div>
 
-        <!-- Filter Status -->
-        <div class="mb-6 flex flex-wrap gap-2">
-            <a href="{{ route('peminjaman.index') }}" 
-               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ !request('status') ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600' }}">
-                <i class="fas fa-list mr-1"></i> Semua
-            </a>
-            <a href="{{ route('peminjaman.index', ['status' => 'pending']) }}" 
-               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ request('status') == 'pending' ? 'bg-yellow-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600' }}">
-                <i class="fas fa-clock mr-1"></i> Pending
-            </a>
-            <a href="{{ route('peminjaman.index', ['status' => 'approved']) }}" 
-               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ request('status') == 'approved' ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600' }}">
-                <i class="fas fa-check-circle mr-1"></i> Approved
-            </a>
-            <a href="{{ route('peminjaman.index', ['status' => 'rejected']) }}" 
-               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ request('status') == 'rejected' ? 'bg-red-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600' }}">
-                <i class="fas fa-times-circle mr-1"></i> Rejected
-            </a>
-        </div>
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-list mr-3 text-blue-400"></i>Daftar Peminjaman Barang
+        </h2>
 
-        <!-- Table -->
-        <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden shadow-xl border border-gray-700/50">
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-700/60">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-blue-300 uppercase tracking-wider">ID</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-blue-300 uppercase tracking-wider">Peminjam</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-blue-300 uppercase tracking-wider">Barang</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-blue-300 uppercase tracking-wider">Jumlah</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-blue-300 uppercase tracking-wider">Tanggal</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-blue-300 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-blue-300 uppercase tracking-wider">Keterangan</th>
-                            <th class="px-6 py-3 text-right text-sm font-medium text-blue-300 uppercase tracking-wider">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-700/50">
-                        @forelse ($data as $index => $peminjaman)
-                        <tr class="hover:bg-gray-700/30 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $index + 1 }}</td>
-                            <td class="px-6 py-4">{{ $peminjaman->nama_peminjam }}</td>
-                            <td class="px-6 py-4">{{ optional($peminjaman->barang)->nama ?? 'Barang tidak ditemukan' }}</td>
-                            <td class="px-6 py-4">{{ $peminjaman->jumlah }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ \Carbon\Carbon::parse($peminjaman->tanggal_pinjam)->format('d M Y') }}</td>
-                            <td class="px-6 py-4">
-                                @if($peminjaman->status == 'pending')
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-600/80 text-white">
-                                        <i class="fas fa-clock mr-1"></i> Pending
-                                    </span>
-                                @elseif($peminjaman->status == 'approved')
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-600/80 text-white">
-                                        <i class="fas fa-check-circle mr-1"></i> Approved
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-600/80 text-white">
-                                        <i class="fas fa-times-circle mr-1"></i> Rejected
-                                    </span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-400">
-                                {{ $peminjaman->keterangan ?? '-' }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right space-x-2">
-                                @if($peminjaman->status == 'pending')
-                                    <button onclick="openApproveModal({{ $peminjaman->id }})" 
-                                            class="inline-flex items-center px-3 py-1.5 bg-green-600 hover:bg-green-700 rounded-lg text-xs transition-colors">
-                                        <i class="fas fa-check mr-1"></i> Approve
+        <div class="overflow-x-auto bg-gray-800 shadow-md rounded-lg">
+            <table class="w-full text-sm text-left text-gray-300">
+                <thead class="text-xs uppercase bg-gray-700 text-blue-200">
+                    <tr>
+                        <th class="px-6 py-3"><i class="fas fa-user mr-1"></i>Nama</th>
+                        <th class="px-6 py-3"><i class="fas fa-box mr-1"></i>Barang</th>
+                        <th class="px-6 py-3"><i class="fas fa-layer-group mr-1"></i>Kategori</th>
+                        <th class="px-6 py-3"><i class="fas fa-layer-group mr-1"></i>Jumlah</th>
+                        <th class="px-6 py-3"><i class="fas fa-info-circle mr-1"></i>Status</th>
+                        <th class="px-6 py-3"><i class="fas fa-calendar-alt mr-1"></i>Tanggal Pinjam</th>
+                        <th class="px-6 py-3"><i class="fas fa-calendar-check mr-1"></i>Tanggal Kembali</th>
+                        <th class="px-6 py-3"><i class="fas fa-cog mr-1"></i>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-700">
+                    @forelse ($peminjamans as $peminjaman)
+                    <tr class="hover:bg-gray-700/50 text-center">
+                        <td class="px-6 py-4">{{ $peminjaman->user->name }}</td>
+                        <td class="px-6 py-4">{{ $peminjaman->barang->nama_barang }}</td>
+                        <td class="px-6 py-4">{{ $peminjaman->barang->kategori->nama_kategori ?? '-' }}</td>
+                        <td class="px-6 py-4">{{ $peminjaman->jumlah }}</td>
+                        <td class="px-6 py-4">
+                            @switch($peminjaman->status)
+                                @case('pending')
+                                <span class="bg-yellow-500/20 text-yellow-300 text-xs px-3 py-1 rounded-full">
+                                    <i class="fas fa-clock mr-1"></i>Pending
+                                </span>
+                                @break
+                                @case('approved')
+                                <span class="bg-green-500/20 text-green-300 text-xs px-3 py-1 rounded-full">
+                                    <i class="fas fa-check mr-1"></i>Disetujui
+                                </span>
+                                @break
+                                @case('selesai')
+                                <span class="bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full">
+                                    <i class="fas fa-check-double mr-1"></i>Selesai
+                                </span>
+                                @break
+                                @default
+                                <span class="bg-red-500/20 text-red-300 text-xs px-3 py-1 rounded-full">
+                                    <i class="fas fa-times mr-1"></i>Ditolak
+                                </span>
+                            @endswitch
+                        </td>
+                        <td class="px-6 py-4">{{ $peminjaman->created_at->format('d M Y') }}</td>
+                        <td class="px-6 py-4">{{ $peminjaman->tanggal_kembali ? \Carbon\Carbon::parse($peminjaman->tanggal_kembali)->format('d M Y') : '-' }}</td>
+                        <td class="px-6 py-4">
+                            @if ($peminjaman->status == 'pending')
+                            <div class="flex justify-center gap-2">
+                                <form action="{{ route('peminjaman.approve', $peminjaman->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs">
+                                        <i class="fas fa-check mr-1"></i>Setuju
                                     </button>
-                                    <button onclick="openRejectModal({{ $peminjaman->id }})" 
-                                            class="inline-flex items-center px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-xs transition-colors">
-                                        <i class="fas fa-times mr-1"></i> Reject
+                                </form>
+                                <form action="{{ route('peminjaman.reject', $peminjaman->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs">
+                                        <i class="fas fa-times mr-1"></i>Tolak
                                     </button>
-                                    <a href="{{ route('peminjaman.edit', $peminjaman->id) }}" 
-                                       class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-xs transition-colors">
-                                        <i class="fas fa-edit mr-1"></i> Edit
-                                    </a>
-                                @endif
-                                
-                                @if($peminjaman->approved_by)
-                                    <div class="text-xs text-gray-400 mt-1 text-right">
-                                        by {{ $peminjaman->approvedBy->name ?? 'Unknown' }}
-                                    </div>
-                                @endif
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="8" class="px-6 py-4 text-center text-gray-400">Tidak ada data peminjaman.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+                                </form>
+                            </div>
+                            @else
+                            <span class="text-gray-400 text-sm">Selesai</span>
+                            @endif
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="8" class="text-center px-6 py-4 text-gray-400">
+                            <i class="fas fa-inbox mr-2"></i>Belum ada data peminjaman
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </main>
-
-    <!-- Modal Approve -->
-    <div id="approveModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-gray-800 p-6 rounded-xl max-w-md w-full mx-4 border border-gray-700">
-            <h3 class="text-lg font-semibold mb-4 text-white flex items-center">
-                <i class="fas fa-check-circle text-green-400 mr-2"></i> Approve Peminjaman
-            </h3>
-            <form id="approveForm" method="POST">
-                @csrf
-                <div class="mb-4">
-                    <label for="approve_keterangan" class="block text-sm font-medium text-gray-300 mb-2">Keterangan (Opsional)</label>
-                    <textarea name="keterangan" id="approve_keterangan" rows="3" 
-                              class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-white"
-                              placeholder="Masukkan keterangan..."></textarea>
-                </div>
-                <div class="flex justify-end gap-3">
-                    <button type="button" onclick="document.getElementById('approveModal').classList.add('hidden')" 
-                            class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors">
-                        Batal
-                    </button>
-                    <button type="submit" 
-                            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
-                        <i class="fas fa-check mr-1"></i> Approve
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Reject -->
-    <div id="rejectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-gray-800 p-6 rounded-xl max-w-md w-full mx-4 border border-gray-700">
-            <h3 class="text-lg font-semibold mb-4 text-white flex items-center">
-                <i class="fas fa-times-circle text-red-400 mr-2"></i> Reject Peminjaman
-            </h3>
-            <form id="rejectForm" method="POST">
-                @csrf
-                <div class="mb-4">
-                    <label for="reject_keterangan" class="block text-sm font-medium text-gray-300 mb-2">Alasan Reject</label>
-                    <textarea name="keterangan" id="reject_keterangan" rows="3" 
-                              class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-white"
-                              placeholder="Masukkan alasan reject..." required></textarea>
-                </div>
-                <div class="flex justify-end gap-3">
-                    <button type="button" onclick="document.getElementById('rejectModal').classList.add('hidden')" 
-                            class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors">
-                        Batal
-                    </button>
-                    <button type="submit" 
-                            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
-                        <i class="fas fa-times mr-1"></i> Reject
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Auto-hide alerts after 5 seconds
-        setTimeout(() => {
-            const successAlert = document.getElementById('success-alert');
-            const errorAlert = document.getElementById('error-alert');
-            if (successAlert) successAlert.remove();
-            if (errorAlert) errorAlert.remove();
-        }, 5000);
-
-        // Modal functions
-        function openApproveModal(id) {
-            const form = document.getElementById('approveForm');
-            form.action = `/peminjaman/${id}/approve`;
-            document.getElementById('approveModal').classList.remove('hidden');
-        }
-
-        function openRejectModal(id) {
-            const form = document.getElementById('rejectForm');
-            form.action = `/peminjaman/${id}/reject`;
-            document.getElementById('rejectModal').classList.remove('hidden');
-        }
-
-        // Close modals when clicking outside
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('approveModal')) {
-                document.getElementById('approveModal').classList.add('hidden');
-            }
-            if (event.target == document.getElementById('rejectModal')) {
-                document.getElementById('rejectModal').classList.add('hidden');
-            }
-        }
-    </script>
-
-    <style type="text/tailwindcss">
-        @layer utilities {
-            @keyframes fade-in {
-                from { opacity: 0; transform: translateY(-10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-
-            .animate-fade-in {
-                animation: fade-in 0.4s ease-out;
-            }
-        }
-    </style>
 </body>
 </html>

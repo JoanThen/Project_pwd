@@ -60,6 +60,15 @@ Route::middleware(['auth'])->group(function () {
     // === Peminjaman & Pengembalian ===
     Route::resource('peminjaman', PeminjamanController::class);
     Route::resource('pengembalian', PengembalianController::class);
+    // === Peminjaman & Pengembalian ===
+Route::resource('peminjaman', PeminjamanController::class);
+
+// ✅ Tambahkan ini
+Route::post('/peminjaman/{id}/approve', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
+Route::post('/peminjaman/{id}/reject', [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
+
+Route::resource('pengembalian', PengembalianController::class);
+
 });
 
 /*
