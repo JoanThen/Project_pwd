@@ -12,7 +12,7 @@ class PeminjamanController extends Controller
     public function index()
     {
         // Tampilkan data terbaru di atas
-        $peminjamans = Peminjaman::with(['user', 'barang'])->latest()->get();
+     $peminjamans = Peminjaman::with(['user', 'barang.kategori'])->latest()->get();
         return view('peminjaman.index', compact('peminjamans'));
     }
 
@@ -35,8 +35,8 @@ class PeminjamanController extends Controller
 
         $barang = Barang::find($request->barang_id);
 
-        if ($barang->stock < $request->jumlah) {
-            return back()->with('error', 'Stok barang tidak mencukupi. Stok saat ini: ' . $barang->stock);
+        if ($barang->stok < $request->jumlah) {
+            return back()->with('error', 'Stok barang tidak mencukupi. Stok saat ini: ' . $barang->stok);
         }
 
         Peminjaman::create([
@@ -51,41 +51,40 @@ class PeminjamanController extends Controller
         return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diajukan.');
     }
 
-   public function approve($id)
-{
-    $peminjaman = Peminjaman::with('barang')->findOrFail($id);
+    public function approve($id)
+    {
+        $peminjaman = Peminjaman::with('barang')->findOrFail($id);
 
-    // Cek status agar tidak meng-approve ulang
-    if ($peminjaman->status !== 'pending') {
-        return back()->with('warning', 'Peminjaman sudah diproses sebelumnya.');
+        // Cek status agar tidak meng-approve ulang
+        if ($peminjaman->status !== 'pending') {
+            return back()->with('warning', 'Peminjaman sudah diproses sebelumnya.');
+        }
+
+        // Cek stok
+        if ($peminjaman->barang->stok < $peminjaman->jumlah) {
+            return back()->withErrors(['stok' => 'Stok barang tidak cukup. Stok saat ini: ' . $peminjaman->barang->stok]);
+        }
+
+        // Update status dan kurangi stok
+        $peminjaman->update(['status' => 'approved']);
+        $peminjaman->barang->decrement('stok', $peminjaman->jumlah);
+
+        return back()->with('success', 'Peminjaman disetujui dan stok barang dikurangi.');
     }
 
-    // Cek stok
-    if ($peminjaman->barang->stock < $peminjaman->jumlah) {
-        return back()->withErrors(['stok' => 'Stok barang tidak cukup. Stok saat ini: ' . $peminjaman->barang->stock]);
+    public function reject($id)
+    {
+        $peminjaman = Peminjaman::findOrFail($id);
+
+        // Cek status agar tidak reject ulang
+        if ($peminjaman->status !== 'pending') {
+            return back()->with('warning', 'Peminjaman sudah diproses sebelumnya.');
+        }
+
+        $peminjaman->update(['status' => 'rejected']);
+
+        return back()->with('error', 'Peminjaman ditolak.');
     }
-
-    // Update status dan kurangi stok
-    $peminjaman->update(['status' => 'approved']);
-    $peminjaman->barang->decrement('stock', $peminjaman->jumlah);
-
-    return back()->with('success', 'Peminjaman disetujui dan stok barang dikurangi.');
-}
-
-public function reject($id)
-{
-    $peminjaman = Peminjaman::findOrFail($id);
-
-    // Cek status agar tidak reject ulang
-    if ($peminjaman->status !== 'pending') {
-        return back()->with('warning', 'Peminjaman sudah diproses sebelumnya.');
-    }
-
-    $peminjaman->update(['status' => 'rejected']);
-
-    return back()->with('error', 'Peminjaman ditolak.');
-}
-
 
     public function destroy($id)
     {

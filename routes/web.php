@@ -8,6 +8,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\DashboardController; // ✅ Tambahan ini
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +28,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 | DASHBOARD
 |--------------------------------------------------------------------------
 */
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
@@ -59,16 +60,10 @@ Route::middleware(['auth'])->group(function () {
 
     // === Peminjaman & Pengembalian ===
     Route::resource('peminjaman', PeminjamanController::class);
+    Route::post('/peminjaman/{id}/approve', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
+    Route::post('/peminjaman/{id}/reject', [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
+
     Route::resource('pengembalian', PengembalianController::class);
-    // === Peminjaman & Pengembalian ===
-Route::resource('peminjaman', PeminjamanController::class);
-
-// ✅ Tambahkan ini
-Route::post('/peminjaman/{id}/approve', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
-Route::post('/peminjaman/{id}/reject', [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
-
-Route::resource('pengembalian', PengembalianController::class);
-
 });
 
 /*
