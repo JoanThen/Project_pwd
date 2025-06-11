@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KategoriBarang;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class KategoriBarangController extends Controller
@@ -10,7 +10,7 @@ class KategoriBarangController extends Controller
 
     public function index()
     {
-        $kategoris = KategoriBarang::all();
+        $kategoris = Kategori::all();
         return view('kategori.index', compact('kategoris'));
     }
 
@@ -24,18 +24,18 @@ class KategoriBarangController extends Controller
             'nama_kategori' => 'required|max:255',
         ]);
 
-        KategoriBarang::create([
+        Kategori::create([
             'nama_kategori' => $request->nama_kategori,
         ]);
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan');
     }
-    public function edit(KategoriBarang $kategori)
+    public function edit(Kategori $kategori)
     {
         return view('kategori.edit', compact('kategori'));
     }
 
-   public function update(Request $request, KategoriBarang $kategori)
+   public function update(Request $request, Kategori $kategori)
 {
     $request->validate([
         'nama_kategori' => 'required|max:255',
@@ -49,7 +49,7 @@ class KategoriBarangController extends Controller
 }
 
 
-    public function destroy(KategoriBarang $kategori)
+    public function destroy(Kategori $kategori)
     {
         $kategori->delete();
 
