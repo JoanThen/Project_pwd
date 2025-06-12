@@ -7,18 +7,8 @@ use App\Http\Controllers\Api\BarangApiController;
 use App\Http\Controllers\Api\PeminjamanApiController;
 use App\Http\Controllers\Api\PengembalianApiController;
 
-/*
-|--------------------------------------------------------------------------
-| AUTH
-|--------------------------------------------------------------------------
-*/
 Route::post('/login', [AuthApiController::class, 'login']);
 
-/*
-|--------------------------------------------------------------------------
-| USER ROUTES (Mobile - role:user)
-|--------------------------------------------------------------------------
-*/
 Route::middleware(['auth:sanctum', 'role:user'])->group(function () {
 
     Route::get('/barangs', [BarangApiController::class, 'index']);
@@ -38,11 +28,7 @@ Route::middleware(['auth:sanctum', 'role:user'])->group(function () {
     });
 });
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN ROUTES (role:admin)
-|--------------------------------------------------------------------------
-*/
+
 Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(function () {
 
     Route::get('/barangs', [BarangApiController::class, 'index']);

@@ -208,7 +208,6 @@
                                 <div>NAMA</div>
                                 <div>EMAIL</div>
                             </div>
-                           
                         </div>
                     </div>
                 </div>

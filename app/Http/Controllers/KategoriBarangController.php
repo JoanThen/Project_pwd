@@ -25,8 +25,9 @@ class KategoriBarangController extends Controller
         ]);
 
         Kategori::create([
-            'nama_kategori' => $request->nama_kategori,
-        ]);
+    'nama' => $request->nama_kategori,
+]);
+
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan');
     }
@@ -41,9 +42,10 @@ class KategoriBarangController extends Controller
         'nama_kategori' => 'required|max:255',
     ]);
 
-    $kategori->update([
-        'nama_kategori' => $request->nama_kategori,
-    ]);
+   $kategori->update([
+    'nama' => $request->nama_kategori,
+]);
+
 
     return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diupdate');
 }
@@ -55,4 +57,5 @@ class KategoriBarangController extends Controller
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus');
     }
+    
 }

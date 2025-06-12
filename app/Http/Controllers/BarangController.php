@@ -15,6 +15,7 @@ class BarangController extends Controller
 
         if ($request->has('kategori_id') && $request->kategori_id != '') {
             $query->where('kategori_id', $request->kategori_id);
+            
         }
 
         $barangs = $query->with('kategori')->get();
@@ -25,17 +26,16 @@ class BarangController extends Controller
 
    public function create()
 {
-    $kategoris = \App\Models\KategoriBarang::all(); // ambil semua kategori
+    $kategoris = Kategori::all(); // Ambil semua data kategori
     return view('barang.create', compact('kategoris'));
 }
-
 
     public function store(Request $request)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'kategori_id' => 'required|exists:kategori_barangs,id',
+            'kategori_id' => 'required|exists:kategoris,id', // FIXED: tabel kategoris
             'stok' => 'required|integer|min:0',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -55,19 +55,18 @@ class BarangController extends Controller
         return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
-   public function edit(Barang $barang)
-{
-    $kategoris = \App\Models\KategoriBarang::all(); // Samakan dengan create()
-    return view('barang.edit', compact('barang', 'kategoris'));
-}
-
+    public function edit(Barang $barang)
+    {
+        $kategoris = Kategori::all(); // FIXED
+        return view('barang.edit', compact('barang', 'kategoris'));
+    }
 
     public function update(Request $request, Barang $barang)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'kategori_id' => 'required|exists:kategori_barangs,id',
+            'kategori_id' => 'required|exists:kategoris,id', // FIXED
             'stok' => 'required|integer|min:0',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);

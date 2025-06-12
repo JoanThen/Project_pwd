@@ -76,9 +76,8 @@
                         <tr class="hover:bg-gray-700/30 transition-colors">
                             <td class="px-6 py-4 whitespace-nowrap font-mono text-gray-400">{{ $k->id }}</td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('kategori.show', $k->id) }}" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors flex items-center">
-                                  <i class="fas fa-folder-open mr-2 text-sm"></i> {{ $k->nama_kategori }}
-
+                                <a href="" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors flex items-center">
+                                  <i class="fas fa-folder-open mr-2 text-sm"></i> {{ $k->nama }}
                                 </a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right space-x-2">

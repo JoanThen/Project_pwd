@@ -95,22 +95,6 @@
                         </div>
                     </div>
                     
-                    <div class="mb-4">
-                        <label for="role" class="block text-slate-600 text-sm font-medium mb-2">Account Type</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-user-tag text-slate-400"></i>
-                            </div>
-                            <select name="role" id="role" required
-                                    class="w-full pl-10 px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400 appearance-none bg-white text-slate-600 text-black">
-                                <option value="user" selected>User</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <i class="fas fa-chevron-down text-slate-400"></i>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="mb-5">
                         <div class="flex items-center">

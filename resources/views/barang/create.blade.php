@@ -148,7 +148,8 @@
                                 <option value="" disabled selected class="text-gray-400">Pilih Kategori</option>
                                 @foreach ($kategoris as $kategori)
                                     <option value="{{ $kategori->id }}" {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>
-                                        {{ $kategori->nama_kategori }}
+                                        {{ $kategori->nama }}
+
                                     </option>
                                 @endforeach
                             </select>

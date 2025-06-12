@@ -16,23 +16,24 @@ class AuthController extends Controller
     }
 
     // Proses registrasi
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+public function register(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:6|confirmed',
+    ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-             'role' => $request->role ?? 'user', 
-        ]);
+    User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => 'admin', // Dipaksa admin, user gak bisa ngatur sendiri
+    ]);
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
-    }
+    return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+}
+
 
     // Tampilkan form login
     public function showLoginForm()
