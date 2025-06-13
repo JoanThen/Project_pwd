@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,10 +35,12 @@
 
         <!-- Profile + Logout -->
         <div class="flex items-center gap-6">
-            <button type="button" class="flex items-center gap-2 text-gray-300 hover:text-white transition duration-200">
-                <span>Log out</span>
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
+           <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="flex items-center text-gray-300 hover:text-white transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </button>
+                </form>
                         <div class="flex items-center gap-3">
                 <div class="flex flex-col items-end">
                     <span class="font-medium">{{ Auth::user()->name }}</span>

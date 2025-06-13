@@ -5,6 +5,7 @@
     <title>Laporan Stok - SARPAS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body class="min-h-screen font-sans text-gray-100 bg-gradient-to-br from-blue-900 via-gray-900 to-black">
 
@@ -57,7 +58,7 @@
         </h2>
 
         <div class="overflow-x-auto bg-gray-800 shadow-md rounded-lg">
-            <table class="w-full text-sm text-left text-gray-300">
+            <table class="w-full text-sm text-left text-gray-300" id="stokBarangTable">
                 <thead class="text-xs uppercase bg-gray-700 text-blue-200">
                     <tr>
                         <th class="px-6 py-3"><i class=""></i>No</th>
@@ -96,8 +97,20 @@
                     </tr>
                     @endforelse
                 </tbody>
+                                    <button
+                    id="downloadExcel"
+                    class="mb-4 bg-[#9c4dff] hover:bg-[#7b1fa2] text-white font-bold px-4 py-2 rounded">
+                    Convert to Excel
+                    </button>
             </table>
         </div>
     </main>
+        <script>
+            document.getElementById("downloadExcel").addEventListener("click", () => {
+    const table = document.getElementById("stokBarangTable");
+    const wb = XLSX.utils.table_to_book(table, { sheet: "Stok Barang" });
+    XLSX.writeFile(wb, "Laporan_Stok_Barang.xlsx");
+  });
+        </script>
 </body>
 </html>

@@ -8,10 +8,12 @@ use App\Models\User;
 class PenggunaController extends Controller
 {
     public function index()
-    {
-        $userCount = User::where('role', 'user')->count();
-        $adminCount = User::where('role', 'admin')->count();
+{
+    $userCount = User::where('role', 'user')->count();
+    $adminCount = User::where('role', 'admin')->count();
+    $users = User::all();
 
-        return view('pengguna', compact('userCount', 'adminCount'));
-    }
+    return view('pengguna', compact('userCount', 'adminCount', 'users'));
+}
+
 }

@@ -44,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
 
     // === Pengguna ===
     Route::get('/pengguna', [PenggunaController::class, 'index'])->name('pengguna');
+    // routes/web.php
+Route::post('/pengguna', [PenggunaController::class, 'store'])->name('pengguna.store');
+
 
     // === Tampilan Statis ===
     Route::view('/pendataan', 'pendataan')->name('pendataan');

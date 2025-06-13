@@ -114,11 +114,15 @@
                             <div class="flex flex-col">
                                 <p class="text-sm font-medium text-gray-200">Joan Imanuel Then</p>
                                 <p class="text-xs text-gray-400">joanthen812@gmail.com</p>
+                                
                             </div>
                         </div>
-                        <button class="text-gray-400 hover:text-white">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
+                         <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="flex items-center text-gray-300 hover:text-white transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </button>
+                </form>
                     </div>
                 </div>
             </aside>
@@ -146,12 +150,14 @@
                             <div class="flex flex-col items-end">
                                 <span class="font-medium">{{ Auth::user()->name }}</span>
                                 <span class="text-xs text-gray-400">Admin</span>
+                                
                             </div>
                             <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 p-0.5">
                                 <img src="{{ asset('assets/OIP.jpeg') }}" alt="Profile" class="w-full h-full rounded-full object-cover">
                             </div>
                         </div>
                     </div>
+                    
                 </header>
 
                 <!-- Content -->
@@ -253,22 +259,6 @@
                         </a> --}}
                     </div>
                 </div>
-
-        <!-- FOOTER -->
-        <footer class="bg-[#0c0c16]/80 backdrop-blur-md py-4 px-8 border-t border-[#2a2a40]">
-            <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
-                <div class="text-center md:text-left mb-4 md:mb-0">
-                    <p class="text-sm text-gray-400">© 2025 <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">SARPAS</span>. All Rights Reserved.</p>
-                </div>
-                <div>
-                    <ul class="flex space-x-4 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-blue-400 transition">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-        </footer>
 
         <!-- JS for animations -->
         <script>

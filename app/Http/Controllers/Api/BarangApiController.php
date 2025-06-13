@@ -18,3 +18,4 @@ class BarangApiController extends Controller
         ]);
     }
 }
+    

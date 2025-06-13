@@ -24,21 +24,23 @@ class AuthApiController extends Controller
 
         $user = Auth::user();
 
-        if ($user->role !== 'user') {
+        // Jika ingin batasi hanya role tertentu (misal: hanya 'user' yg boleh login via mobile)
+        if (!in_array($user->role, ['user', 'admin'])) {
             return response()->json([
                 'success' => false,
                 'message' => 'Role tidak diizinkan.',
             ], 403);
         }
 
-        // Revoke all tokens (opsional)
+        // Hapus semua token sebelumnya (opsional, tergantung kebutuhanmu)
         $user->tokens()->delete();
 
+        // Buat token baru
         $token = $user->createToken('mobile-token')->plainTextToken;
 
         return response()->json([
             'success' => true,
-            'message' => 'Login berhasil.',
+            'message' => 'Anda Berhasil login.',
             'token' => $token,
             'token_type' => 'Bearer',
             'user' => [
