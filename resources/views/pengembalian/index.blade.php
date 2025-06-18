@@ -75,7 +75,7 @@
                     <tr class="hover:bg-gray-700/50 text-center">
                         <td class="px-6 py-4 font-medium">{{ $item->id }}</td>
                         <td class="px-6 py-4">{{ $item->peminjaman->nama_peminjam }}</td>
-                        <td class="px-6 py-4">{{ $item->peminjaman->barang->nama_barang ?? '-' }}</td>
+                        <td class="px-6 py-4">{{ $item->peminjaman->barang->nama ?? '-' }}</td>
                         <td class="px-6 py-4">{{ $item->peminjaman->jumlah ?? '-' }}</td>
                         <td class="px-6 py-4">
                             {{ $item->tanggal_pengembalian ? \Carbon\Carbon::parse($item->tanggal_pengembalian)->format('d M Y') : '-' }}

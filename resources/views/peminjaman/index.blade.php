@@ -74,8 +74,8 @@
                     @forelse ($peminjamans as $peminjaman)
                     <tr class="hover:bg-gray-700/50 text-center">
                         <td class="px-6 py-4">{{ $peminjaman->user->name }}</td>
-                        <td class="px-6 py-4">{{ $peminjaman->barang->nama_barang }}</td>
-                        <td class="px-6 py-4">{{ $peminjaman->barang->kategori->nama_kategori ?? '-' }}</td>
+                        <td class="px-6 py-4">{{ $peminjaman->barang->nama }}</td>
+                        <td class="px-6 py-4">{{ $peminjaman->barang->kategori->nama ?? '-' }}</td>
                         <td class="px-6 py-4">{{ $peminjaman->jumlah }}</td>
                         <td class="px-6 py-4">
                             @switch($peminjaman->status)
